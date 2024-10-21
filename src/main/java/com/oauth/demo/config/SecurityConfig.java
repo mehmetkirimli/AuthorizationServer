@@ -87,11 +87,14 @@ public class SecurityConfig
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .redirectUri("http://127.0.0.1:8083/login/oauth2/code/app-client-id")
-                .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.NONE) // public client
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .authorizationGrantTypes(
                         grantType -> {
                             grantType.add(AuthorizationGrantType.AUTHORIZATION_CODE);
                             grantType.add(AuthorizationGrantType.REFRESH_TOKEN);
+                            grantType.add(AuthorizationGrantType.CLIENT_CREDENTIALS);
                         }
                 ).clientSettings(ClientSettings.builder().requireProofKey(true).build())
                 .build();
@@ -130,11 +133,14 @@ public class SecurityConfig
 
 
 
+    //http://127.0.0.1:8083/login/oauth2/code/app-client-id?code=
+    // agDIVgw4Kx5xN-bekIwE_W5w7Puxwqxz0rSl2cCgBBWrIPObaVW0pwlnPhuhtlUe3aY7FyvCocGz_iIyG_BdHT_Anrym1MkrBuqsw_3xvosVPHlHDnnSHY4LpcHbKDDR
 
 
 
 
-
+    //http://127.0.0.1:8083/login/oauth2/code/app-client-id?code=
+    // 7q9L8myw6ri2rcwWZ6eXvSkoH7BaAWeQHWP2At8mTF5iNRLrrzCz4IIfoUSMYMzXjWfb685MCJy5-TXzvb4f-xW_bstRWoPHg_8U5_rMsPx99MbSALZHGJIOKzYERlu2
 
 
 
