@@ -11,7 +11,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -53,8 +52,8 @@ public class SecurityConfig
         return httpSecurity.build();
     }
 
-    @Bean
     @Order(2)
+    @Bean
     public SecurityFilterChain appSecurity(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request -> request.anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
@@ -82,9 +81,9 @@ public class SecurityConfig
     @Bean
     public RegisteredClientRepository registeredClientRepository()
     {
-        RegisteredClient build = RegisteredClient.withId(UUID.randomUUID().toString())
+        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("app-client-id")
-                .clientSecret("ap-client-secret")
+                .clientSecret("app-client-secret")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .redirectUri("http://127.0.0.1:8083/login/oauth2/code/app-client-id")
@@ -97,9 +96,7 @@ public class SecurityConfig
                 ).clientSettings(ClientSettings.builder().requireProofKey(true).build())
                 .build();
 
-        RegisteredClientRepository registerClient = (RegisteredClientRepository) build;
-
-        return new InMemoryRegisteredClientRepository((RegisteredClient) registerClient);
+        return new InMemoryRegisteredClientRepository(registeredClient);
     }
 
     @Bean
